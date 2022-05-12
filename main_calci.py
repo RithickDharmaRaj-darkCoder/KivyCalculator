@@ -17,6 +17,18 @@ class CalciLayouts(Widget):
     def clear(self):
         self.ids.screen.text = '0'
 
+    def num_btn_fn(self, num):
+        # Variable to store pre-entered values...
+        pre_num = self.ids.screen.text
+
+        # Checking is '0' in screen...
+        if pre_num == '0':
+            self.ids.screen.text = ''
+            self.ids.screen.text = str(num)
+        else:
+            self.ids.screen.text = f'{pre_num}{str(num)}'
+
+
 class CalculatorApp(App):
     def build(self):
         return CalciLayouts()
