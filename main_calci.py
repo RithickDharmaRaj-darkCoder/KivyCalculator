@@ -14,7 +14,8 @@ Window.size = (370, 550)
 
 
 class CalciLayouts(Widget):
-    pass
+    def clear(self):
+        self.ids.screen.text = '0'
 
 class CalculatorApp(App):
     def build(self):

@@ -1,4 +1,82 @@
 #:import utils kivy.utils
+<Button>:
+    size_hint: (0.2, 0.2)
+    font_size: 34
+    background_normal: ''
+    background_color: utils.get_color_from_hex("#242323")
+    color: utils.get_color_from_hex("#13f0aa")
 
 <CalciLayouts>:
+    BoxLayout:
+        padding: 2
+        spacing: 1
+        orientation: 'vertical'
+        size: root.width, root.height
+
+        TextInput:
+            id: screen
+            text: '0'
+            size_hint: (1, 0.25)
+            multiline: False
+            font_size: 40
+            halign: 'right'
+
+        GridLayout:
+            cols: 4
+            rows: 5
+            padding: 1
+            spacing: 1
+
+            Button:
+                text: '%'
+                color: utils.get_color_from_hex("#fa161e")
+            Button:
+                text: 'CE'
+                color: utils.get_color_from_hex("#fa161e")
+            Button:
+                id: clear
+                text: 'C'
+                color: utils.get_color_from_hex("#fa161e")
+                on_press: root.clear()
+            Button:
+                text: '/'
+                color: utils.get_color_from_hex("#faf20c")
+            Button:
+                text: '7'
+            Button:
+                text: '8'
+            Button:
+                text: '9'
+            Button:
+                text: '*'
+                color: utils.get_color_from_hex("#faf20c")
+            Button:
+                text: '4'
+            Button:
+                text: '5'
+            Button:
+                text: '6'
+            Button:
+                text: '-'
+                color: utils.get_color_from_hex("#faf20c")
+                font_size: 48
+            Button:
+                text: '1'
+            Button:
+                text: '2'
+            Button:
+                text: '3'
+            Button:
+                text: '+'
+                color: utils.get_color_from_hex("#faf20c")
+            Button:
+                text: '00'
+            Button:
+                text: '0'
+            Button:
+                text: '.'
+                font_size: 48
+            Button:
+                text: '='
+                color: utils.get_color_from_hex("#fa161e")
 
