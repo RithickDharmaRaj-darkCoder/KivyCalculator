@@ -14,12 +14,24 @@
         size: root.width, root.height
 
         TextInput:
+            # Screen for both input & output...
             id: screen
             text: '0'
             size_hint: (1, 0.25)
             multiline: False
             font_size: 40
             halign: 'right'
+
+        Label:
+            # Secondary screen for displaying results instantly...
+            id: screen2
+            text: ''
+            text_size: self.size
+            size_hint: (1, 0.15)
+            multiline: False
+            font_size: 38
+            halign: 'right'
+
 
         GridLayout:
             cols: 4
@@ -30,10 +42,7 @@
             Button:
                 text: '%'
                 color: utils.get_color_from_hex("#fa161e")
-
-            Button:
-                text: 'CE'
-                color: utils.get_color_from_hex("#fa161e")
+                on_press: root.per()
 
             Button:
                 id: clear
@@ -42,8 +51,14 @@
                 on_press: root.clear()
 
             Button:
+                text: u'\u00AB'
+                color: utils.get_color_from_hex("#fa161e")
+                on_press: root.backspace()
+
+            Button:
                 text: '/'
                 color: utils.get_color_from_hex("#faf20c")
+                on_press: root.math_sign('/')
 
             Button:
                 text: '7'
@@ -60,6 +75,7 @@
             Button:
                 text: '*'
                 color: utils.get_color_from_hex("#faf20c")
+                on_press: root.math_sign('*')
 
             Button:
                 text: '4'
@@ -77,6 +93,7 @@
                 text: '-'
                 color: utils.get_color_from_hex("#faf20c")
                 font_size: 48
+                on_press: root.math_sign('-')
 
             Button:
                 text: '1'
@@ -93,6 +110,7 @@
             Button:
                 text: '+'
                 color: utils.get_color_from_hex("#faf20c")
+                on_press: root.math_sign('+')
 
             Button:
                 text: '00'
@@ -105,8 +123,10 @@
             Button:
                 text: '.'
                 font_size: 48
+                on_press: root.dot()
 
             Button:
                 text: '='
                 color: utils.get_color_from_hex("#fa161e")
+                on_press: root.equal()
 
