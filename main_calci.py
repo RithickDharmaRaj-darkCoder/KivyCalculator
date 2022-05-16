@@ -24,34 +24,42 @@ class CalciLayouts(Widget):
     def clear(self):
         self.ids.screen.text = '0'
         self.ids.screen2.text = ''
-        self.Aop.clear()
-        self.Aop.append('')
-        self.Symbol_lst.clear()
-        self.Symbol_lst.append('')
-        self.Bop.clear()
-        self.Bop.append('')
+        self.Aop = ['']
+        self.Symbol_lst = ['']
+        self.Bop = ['']
         self.Current = ['A']
 
     def backspace(self):
         pre_num = self.ids.screen.text
         rem = self.ids.screen.text[:-1]
         to_del = pre_num[-1]
-        if rem == ['']:
-            self.Aop.pop()
+
+        if pre_num == '0':
             self.ids.screen.text = '0'
             self.ids.screen2.text = ''
         elif (to_del.isnumeric() == True) and (self.Current[-1] == 'A'):
-            self.Aop.pop()
-            self.ids.screen.text = rem
-            answer = f'{self.Aop[-1]}{self.Symbol_lst[-1]}{self.Bop[-1]}'
-            ans = eval(str(answer))
-            self.ids.screen2.text = str(ans)
+            if rem == '':
+                self.Aop = ['']
+                self.ids.screen.text = '0'
+                self.ids.screen2.text = ''
+            else:
+                self.Aop.pop()
+                self.ids.screen.text = rem
+                answer = f'{self.Aop[-1]}{self.Symbol_lst[-1]}{self.Bop[-1]}'
+                ans = eval(str(answer))
+                self.ids.screen2.text = str(ans)
         elif (to_del.isnumeric() == True) and (self.Current[-1] == 'B'):
             self.Bop.pop()
             self.ids.screen.text = rem
-            answer = self.Aop[-1] + self.Symbol_lst[-1] + self.Bop[-1]
-            ans = eval(str(answer))
-            self.ids.screen2.text = str(ans)
+            if self.Bop[-1] != '':
+                answer = self.Aop[-1] + self.Symbol_lst[-1] + self.Bop[-1]
+                ans = eval(str(answer))
+                self.ids.screen2.text = str(ans)
+            else:
+                answer = self.Aop[-1]
+                ans = eval(str(answer))
+                self.ids.screen2.text = str(ans)
+
         elif to_del in self.math_signs:
             self.Aop.pop()
             self.Bop.pop()
@@ -72,24 +80,26 @@ class CalciLayouts(Widget):
             if screen1_pre_value == '0' and (screen2_pre_value == '' or screen2_pre_value == 'Can\'t divide by 0' or screen2_pre_value == 'Can\'t start with (+,-,*,/)'):
                 self.Aop.append(str(num))
                 self.ids.screen.text = str(num)
-                self.ids.screen2.text = str(num)
+                #self.ids.screen2.text = str(num)
+                answer = self.Aop[-1] + self.Symbol_lst[-1] + self.Bop[-1]
+                ans = eval(str(answer))
+                self.ids.screen2.text = str(ans)
             else:
-                dupli_s1_pre_value = screen1_pre_value
                 last_in_list = screen1_pre_value[-1]
-                if ((last_in_list.isnumeric()) == True) and (self.Current == 'A'):
+                if (last_in_list.isnumeric() == True) and (self.Current[-1] == 'A'):
                     temp_A = f'{self.Aop[-1]}{num}'
                     self.Aop.append(temp_A)
                     self.ids.screen.text = f'{screen1_pre_value}{str(num)}'
                     answer = self.Aop[-1] + self.Symbol_lst[-1] + self.Bop[-1]
                     ans = eval(str(answer))
                     self.ids.screen2.text = str(ans)
-                elif (last_in_list in self.math_signs) and (self.Current == 'B'):
+                elif (last_in_list in self.math_signs) and (self.Current[-1] == 'B'):
                     self.Bop.append(str(num))
                     answer = self.Aop[-1] + self.Symbol_lst[-1] + self.Bop[-1]
                     ans = eval(str(answer))
                     self.ids.screen.text = f'{screen1_pre_value}{str(num)}'
                     self.ids.screen2.text = str(ans)
-                elif (last_in_list.isnumeric() == True) and (self.Current == 'B'):
+                elif (last_in_list.isnumeric() == True) and (self.Current[-1] == 'B'):
                     temp_B = f'{self.Bop[-1]}{str(num)}'
                     self.Bop.append(temp_B)
                     answer = self.Aop[-1] + self.Symbol_lst[-1] + self.Bop[-1]
@@ -100,25 +110,21 @@ class CalciLayouts(Widget):
             self.ids.screen2.font_size = 18
             self.ids.screen2.text = 'Can\'t divide by 0'
             self.ids.screen.text = '0'
-            self.Aop.clear()
-            self.Aop.append('')
-            self.Symbol_lst.clear()
-            self.Symbol_lst.append('')
-            self.Bop.clear()
-            self.Bop.append('')
+            self.Aop = ['']
+            self.Symbol_lst = ['']
+            self.Bop = ['']
             self.Current = ['A']
 
     def math_sign(self, sign):
+        pre_num = self.ids.screen.text
         if self.ids.screen.text == '0':
             self.ids.screen2.font_size = 18
             self.ids.screen2.text = 'Can\'t start with (+,-,*,/)'
-            self.Aop.clear()
-            self.Aop.append('')
-            self.Symbol_lst.clear()
-            self.Symbol_lst.append('')
-            self.Bop.clear()
-            self.Bop.append('')
-            self.Current = ['A']
+            self.Aop = ['']
+            self.Symbol_lst = ['']
+            self.Bop = ['']
+        elif pre_num[-1] in self.math_signs:
+            pass
         else:
             self.Aop.append(self.ids.screen2.text)
             self.Bop.append('')
@@ -128,27 +134,28 @@ class CalciLayouts(Widget):
             self.ids.screen.text = f'{pre_num}{sign}'
 
     def dot(self):
-        pre_num = self.ids.screen.text
+        pass
+        '''pre_num = self.ids.screen.text
         if '.' in pre_num:
             pass
         else:
             pre_num = f'{pre_num}.'
-            self.ids.screen.text = pre_num
+            self.ids.screen.text = pre_num'''
 
-'''    def equal(self):
-        try:
-            pre_num = self.ids.screen.text
+    def equal(self):
+        self.ids.screen.text = self.ids.screen2.text
+        self.Aop = ['']
+        self.Aop.append(self.ids.screen2.text)
+        self.Bop = ['']
+        self.Symbol_lst = ['']
+        self.Current = ['A']
+        self.ids.screen2.text = ''
 
-            # Doing calculation using Math...
-            answer = eval(pre_num)
-            self.ids.screen2.text = str(answer)
-        except ZeroDivisionError:
-            self.ids.screen2.text = 'Can\'t divide by 0'
-            self.ids.screen.text = '0'
-        except:
-            self.ids.screen2.text = 'Error!'
-            self.ids.screen.text = '0'
-'''
+    def cap(self,c_sign):
+        pass
+
+    def per(self, per_sign):
+        pass
 
 class CalculatorApp(App):
     def build(self):
